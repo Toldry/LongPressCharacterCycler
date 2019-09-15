@@ -1,4 +1,4 @@
-"# LongPressCharacterCycler" 
+# LongPressCharacterCycler
 
 This script allows to press-and-hold a key in order to cycle between charecter variants of the pressed key.
 
