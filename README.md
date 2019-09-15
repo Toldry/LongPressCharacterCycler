@@ -7,4 +7,4 @@ For example, by pressing-and-holding the "e" key you get the following character
 ![](demo.gif)
 
 
-Requires [AutoHotkey](https://www.autohotkey.com/) to be installed
+Requires [AutoHotkey](https://www.autohotkey.com/)
