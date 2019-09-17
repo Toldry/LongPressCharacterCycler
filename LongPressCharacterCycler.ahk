@@ -69,7 +69,7 @@ else if (originalLetter == "=")
 }
 else if (originalLetter == "-")
 {
-	variantPairs := [["—"],["⸺"],["⸻"]]
+	variantPairs := [["→"],["←"],["—"],["⸺"],["⸻"]]
 }
 Send {Blind}{%originalLetter%}
 For _,pair in variantPairs 
