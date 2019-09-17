@@ -27,47 +27,47 @@ if (currentKeyboardLayout != KEYBOARD_LAYOUT_ENGLISH)
 	Send {Blind}{%originalLetter%}
 	return
 }
-if 0
+if 0 ; the purpose of this block is to make the rest of the "else if"s look prettier
 {
 	return
 }
-else if InStr(A_ThisHotkey, "a")
+else if (originalLetter == "a")
 {
-	variantPairs := [["Á","á"],["Ä","ä"],["α"],["Ɐ"],["Æ","æ"],["Å","å"]]
+	variantPairs := [["Á","á"],["Ä","ä"],["Α","α"],["Ɐ"],["Æ","æ"],["Å","å"]]
 }
-else if InStr(A_ThisHotkey, "e")
+else if (originalLetter == "e")
 {
 	variantPairs := [["É","é"],["Ë","ë"],["€"],["ϵ","ε"],["∃"],["∅"]]
 }
-else if InStr(A_ThisHotkey, "i")
+else if (originalLetter == "i")
 {
 	variantPairs := [["Í","í"],["∞"]]
 }
-else if InStr(A_ThisHotkey, "o")
+else if (originalLetter == "o")
 {
 	variantPairs := [["Ó","ó"],["Ö","ö"],["Ω","ω"]]
 }
-else if InStr(A_ThisHotkey, "u")
+else if (originalLetter == "u")
 {
 	variantPairs := [["Ú","ú"],["Ü","ü"],["∪"],["∩"]]
 }
-else if InStr(A_ThisHotkey, "d")
+else if (originalLetter == "d")
 {
 	variantPairs := [["∂"]]
 }
-else if InStr(A_ThisHotkey, "n")
+else if (originalLetter == "n")
 {
 	variantPairs := [["Ñ","ñ"]]
 }
-else if InStr(A_ThisHotkey, "s")
+else if (originalLetter == "s")
 {
 	variantPairs := [["₪"],["ẞ"],["Σ","σ"],["§"]]
 }
-else if InStr(A_ThisHotkey, "=")
+else if (originalLetter == "=")
 {
 	variantPairs := [["≈"],["≠"],["∈"],["∉"],["⊂"],["⊆"]]
 }
-else if InStr(A_ThisHotkey, "-")
+else if (originalLetter == "-")
 {
 	variantPairs := [["—"],["⸺"],["⸻"]]
 }
