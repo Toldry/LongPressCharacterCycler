@@ -14,73 +14,81 @@ $*a::
 $*e::
 $*i::
 $*o::
-$*c::
 $*u::
 $*n::
 $*s::
+$*d::
+$*=::
+$*-::
+originalLetter := RegExReplace(A_ThisHotkey, "\$?\*?(.)", "$1")
 currentKeyboardLayout := DllCall("GetKeyboardLayout", "Int", DllCall("GetWindowThreadProcessId", "Int", WinActive("A"), "Int", 0))
 if (currentKeyboardLayout != KEYBOARD_LAYOUT_ENGLISH)
 {
 	Send {Blind}{%originalLetter%}
 	return
 }
-if 		InStr(A_ThisHotkey, "a")
+if 0
 {
-	originalLetter := "a"
-	variantPairs := [["Á","á"],["Ä","ä"],["α","α"] ,["Å","å"],["À","à"],["Ä","ä"],["Ã","ã"],["Ā","ā"],["Æ","æ"]]
+	return
+}
+else if InStr(A_ThisHotkey, "a")
+{
+	variantPairs := [["Á","á"],["Ä","ä"],["α"],["Ɐ"],["Æ","æ"],["Å","å"]]
 }
 else if InStr(A_ThisHotkey, "e")
 {
-	originalLetter := "e"
-	variantPairs := [["É","é"], ["Ë","ë"], ["ϵ","ε"], ["È","è"], ["Ê","ê"], ["Ē","ē"]]
+	variantPairs := [["É","é"],["Ë","ë"],["€"],["ϵ","ε"],["∃"],["∅"]]
 }
 else if InStr(A_ThisHotkey, "i")
 {
-	originalLetter := "i"
-	variantPairs := [["Í","í"],["Ï","ï"],["Ì","ì"],["Î","î"],["Ī","ī"]]
+	variantPairs := [["Í","í"],["∞"]]
 }
 else if InStr(A_ThisHotkey, "o")
 {
-	originalLetter := "o"
-	variantPairs := [["Ó","ó"],["Ö","ö"],["Ø","ø"],["Ω","ω"],["Ò","ò"],["Õ","õ"],["Ō","ō"],["Œ","œ"]]
+	variantPairs := [["Ó","ó"],["Ö","ö"],["Ω","ω"]]
 }
 else if InStr(A_ThisHotkey, "u")
 {
-	originalLetter := "u"
-	variantPairs := [["Ü","ü"],["Ú","ú"],["Ù","ù"],["Û","û"],["Ū","ū"]]
+	variantPairs := [["Ú","ú"],["Ü","ü"],["∪"],["∩"]]
 }
-else if InStr(A_ThisHotkey, "c")
+else if InStr(A_ThisHotkey, "d")
 {
-	originalLetter := "c"
-	variantPairs := [["Ç","ç"]]
+	variantPairs := [["∂"]]
 }
 else if InStr(A_ThisHotkey, "n")
 {
-	originalLetter := "n"
 	variantPairs := [["Ñ","ñ"]]
 }
 else if InStr(A_ThisHotkey, "s")
 {
-	originalLetter := "s"
-	variantPairs := [["ẞ","ẞ"],["Σ","σ"],["§","§"]]
+	variantPairs := [["₪"],["ẞ"],["Σ","σ"],["§"]]
+}
+else if InStr(A_ThisHotkey, "=")
+{
+	variantPairs := [["≈"],["≠"],["∈"],["∉"],["⊂"],["⊆"]]
+}
+else if InStr(A_ThisHotkey, "-")
+{
+	variantPairs := [["—"],["⸺"],["⸻"]]
 }
 Send {Blind}{%originalLetter%}
 For _,pair in variantPairs 
 {
-	KeyWait, %originalLetter%, T0.5
-	if !ErrorLevel {
-	return
+	KeyWait, %originalLetter%, T0.7
+	if !ErrorLevel 
+	{
+		return
 	}
-	Capital := (GetKeyState("Shift", "P") ^ GetKeyState("CapsLock", "T") = 1)
+	Capitalize := (GetKeyState("Shift", "P") ^ GetKeyState("CapsLock", "T") = 1) ; Shift XOR CapsLock
 	uppercaseLetter := pair[1]
-	lowercaseLetter := pair[2]
-	if(!Capital)
+	lowercaseLetter := pair[2] ; sometimes this will be empty
+	if (Capitalize  || !lowercaseLetter)
 	{
-	Send {BackSpace}{%lowercaseLetter%}
+		Send {BackSpace}{%uppercaseLetter%}
 	}
-	else if (Capital)
+	else
 	{
-	Send {BackSpace}{%uppercaseLetter%}
+		Send {BackSpace}{%lowercaseLetter%}
 	}
 }
 KeyWait, %originalLetter%
