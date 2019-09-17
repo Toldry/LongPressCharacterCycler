@@ -18,6 +18,12 @@ $*c::
 $*u::
 $*n::
 $*s::
+currentKeyboardLayout := DllCall("GetKeyboardLayout", "Int", DllCall("GetWindowThreadProcessId", "Int", WinActive("A"), "Int", 0))
+if (currentKeyboardLayout != KEYBOARD_LAYOUT_ENGLISH)
+{
+	Send {Blind}{%originalLetter%}
+	return
+}
 if 		InStr(A_ThisHotkey, "a")
 {
 	originalLetter := "a"
@@ -58,33 +64,24 @@ else if InStr(A_ThisHotkey, "s")
 	originalLetter := "s"
 	variantPairs := [["ẞ","ẞ"],["Σ","σ"],["§","§"]]
 }
-currentKeyboardLayout := DllCall("GetKeyboardLayout", "Int", DllCall("GetWindowThreadProcessId", "Int", WinActive("A"), "Int", 0))
-if (currentKeyboardLayout != KEYBOARD_LAYOUT_ENGLISH)
+Send {Blind}{%originalLetter%}
+For _,pair in variantPairs 
 {
-	Send {Blind}{%originalLetter%}
+	KeyWait, %originalLetter%, T0.5
+	if !ErrorLevel {
 	return
-}
-else 
-{
-	Send {Blind}{%originalLetter%}
-	For _,pair in variantPairs 
-	{
-		KeyWait, %originalLetter%, T0.5
-		if !ErrorLevel {
-			return
-		}
-		Capital := (GetKeyState("Shift", "P") ^ GetKeyState("CapsLock", "T") = 1)
-		uppercaseLetter := pair[1]
-		lowercaseLetter := pair[2]
-		if(!Capital)
-		{
-			Send {BackSpace}{%lowercaseLetter%}
-		}
-		else if (Capital)
-		{
-			Send {BackSpace}{%uppercaseLetter%}
-		}
 	}
-	KeyWait, %originalLetter%
+	Capital := (GetKeyState("Shift", "P") ^ GetKeyState("CapsLock", "T") = 1)
+	uppercaseLetter := pair[1]
+	lowercaseLetter := pair[2]
+	if(!Capital)
+	{
+	Send {BackSpace}{%lowercaseLetter%}
+	}
+	else if (Capital)
+	{
+	Send {BackSpace}{%uppercaseLetter%}
+	}
 }
+KeyWait, %originalLetter%
 return
